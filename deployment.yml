@@ -32,8 +32,8 @@ spec:
             - containerPort: 3122
           resources:
               limits:
-                memory: 256Mi
-                cpu: 200m
+                memory: 128Mi
+                cpu: 50m
           volumeMounts:
             - name: sftp-config
               mountPath: /etc/sftp/
@@ -54,6 +54,9 @@ kind: Service
 apiVersion: v1
 metadata:
   name: sftp-service
+  annotations:
+    service.beta.kubernetes.io/azure-dns-label-name: #{dns_label}#
+    service.beta.kubernetes.io/port_3122_no_probe_rule: "true"
 spec:
   type: LoadBalancer
   ports:
@@ -62,6 +65,9 @@ spec:
       targetPort: 3122
   selector:
     app: sftp
+  externalTrafficPolicy: Local
+  loadBalancerSourceRanges:
+  - 10.20.30.0/24
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
