@@ -2,14 +2,35 @@ name: Docker Image CI
 
 on:
  workflow_dispatch
+#   schedule:
+#    - cron: '30 8 * * 4'
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build and push - Alpine
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          image: sftp-alpine
+          registry: ghcr.io
+          tags: stable-alpine, latest-alpine
+          labels: nginx=1.26.0
+          dockerfile: ./Dockerfile-alpine
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
+          
+      - name: Build and push - Debian
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          image: sftp
+          registry: ghcr.io
+          tags: stable, latest
+          labels: nginx=1.26.0
+          dockerfile: ./Dockerfile
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
