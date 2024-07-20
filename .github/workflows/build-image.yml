@@ -134,10 +134,3 @@ jobs:
           docker push "$github_tag"
           docker logout docker.pkg.github.com
 
-      - name: Push images to Docker Hub registry
-        run: |
-          echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login \
-            -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
-
-          docker push "${{ inputs.image }}:${{ inputs.tag }}"
-          docker logout
