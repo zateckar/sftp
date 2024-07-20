@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-config
+data:
+  users.conf: |
+    #{user1}#:#{user1_password}#:1000:100:data
+    #{user2}#:#{user2_password}#:1001:100:data
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sftp
+  labels:
+    app: sftp
+spec:
+  replicas: 1
+  minReadySeconds: 10
+  selector:
+    matchLabels:
+      app: sftp
+  template:
+    metadata:
+      labels:
+        app: sftp
+    spec:
+      containers:
+        - name: sftp
+          image: ghcr.io/zateckar/sftp-alpine:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3122
+          resources:
+              limits:
+                memory: 256Mi
+                cpu: 200m
+          volumeMounts:
+            - name: sftp-config
+              mountPath: /etc/sftp/
+              readOnly: true
+            - name: sftp-data
+              mountPath: /home
+      volumes:
+        - name: sftp-config
+          configMap:
+            name: user-config
+        - name: sftp-data
+          persistentVolumeClaim:
+            claimName: sftp-data-claim
+  triggers:
+    - type: ConfigChange
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: sftp-service
+spec:
+  type: LoadBalancer
+  ports:
+    - name: ssh
+      port: 3122
+      targetPort: 3122
+  selector:
+    app: sftp
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sftp-data-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  storageClassName: default
+  resources:
+    requests:
+      storage: 200Mi
