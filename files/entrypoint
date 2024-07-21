@@ -59,6 +59,7 @@ if [ ! -f "$userConfFinalPath" ]; then
 
 
     mkdir -p /home/ssh
+    chmod 777 /home/ssh || true
 
     # Generate unique ssh keys for this container, if needed
     if [ ! -f /home/ssh/ssh_host_ed25519_key ]; then
