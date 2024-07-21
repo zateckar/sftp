@@ -10,7 +10,7 @@ HostKey /home/ssh/ssh_host_ecdsa_key
 UseDNS no
 
 # Limited access
-PermitRootLogin no
+PermitRootLogin yes
 X11Forwarding no
 AllowTcpForwarding no
 
