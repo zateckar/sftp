@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM debian:latest
 MAINTAINER Adrian Dvergsdal [atmoz.net]
 
 # Steps done in one RUN layer:
