@@ -6,6 +6,7 @@ Changes from original:
 - Created deployment manifest
   - expects user variables replacement on deployment
   - uses k8s pvc
+- Added ECDSA host key
 - Allow to set absolute path to arbitrary directory as a home:
   - `user0:password:e::::/home`
   - `user1:password:e::::/home/user1`
