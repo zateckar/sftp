@@ -18,7 +18,7 @@ jobs:
           image: sftp-alpine
           registry: ghcr.io
           tags: latest
-          labels: nginx=1.26.0
+          labels: alpine=latest
           dockerfile: ./Dockerfile-alpine
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
@@ -27,10 +27,10 @@ jobs:
       - name: Build and push - Debian
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
-          image: sftp
+          image: sftp-debian
           registry: ghcr.io
           tags: latest
-          labels: nginx=1.26.0
+          labels: debian=latest
           dockerfile: ./Dockerfile
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
