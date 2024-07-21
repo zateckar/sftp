@@ -74,9 +74,9 @@ if [ ! -f "$userConfFinalPath" ]; then
     fi
 
     # Restrict access from other users
-    chmod 600 /home/ssh/ssh_host_ed25519_key || true
-    chmod 600 /home/ssh/ssh_host_rsa_key || true
-    chmod 600 /home/ssh/ssh_host_ecdsa_key || true
+    # chmod 600 /home/ssh/ssh_host_ed25519_key || true
+    # chmod 600 /home/ssh/ssh_host_rsa_key || true
+    # chmod 600 /home/ssh/ssh_host_ecdsa_key || true
 
 fi
 
