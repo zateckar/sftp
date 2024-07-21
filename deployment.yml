@@ -26,10 +26,6 @@ spec:
     metadata:
       labels:
         app: sftp
-        elastic.skoda-auto.com/leanix_id: "32112" 
-      annotations:  
-        elastic.co/dataset: kubernetes.container_logs.keycloak.log  
-        elastic.skoda-auto.com/cla-ingestion: multiline-generic 
     spec:
       containers:
         - name: sftp
